@@ -104,3 +104,6 @@ def ProjOnPlane(vec,support):
     Pp = [Pp[0,0],Pp[1,0],Pp[2,0]]
     Ep = vec-Pp
     return Pp,Ep
+
+def SetupEnv():
+    return mp.axes(projection="3d")
