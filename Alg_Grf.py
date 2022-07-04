@@ -107,7 +107,7 @@ def getAngle(vec1,vec2):
     x=np.dot(vec1,vec2)
     y=getLen(vec1)*getLen(vec2)
     #x/y = cos(vec1,vec2)
-    
+
     x=np.arccos(x/y)
     return x/math.pi*180
 
@@ -141,3 +141,6 @@ def ProjOnPlane(vec,support):
 
 def SetupEnv():
     return mp.axes(projection="3d")
+
+def ShowEnv():
+    mp.show()
