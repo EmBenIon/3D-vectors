@@ -4,6 +4,8 @@ import matplotlib
 import matplotlib.pyplot as mp
 import random as rd
 
+# !!VECTORS MUST BE NUMPY ARRAYS!!
+
 
 #algebra________________________________________
 
@@ -47,10 +49,43 @@ k = np.array([0, 0, 1],dtype=np.float64)
 def drawLine(grf,Point1,Point2,style="solid",color="gray"):
     grf.plot([Point1[0],Point2[0]],[Point1[1],Point2[1]],[Point1[2],Point2[2]],linestyle=style,color=color)
 
-def drawSurface(grf,Point1,Point2,Direction,Width,color="gray"):
-    for i in range(Width*10+1):
-        drawLine(grf,Point1+(i/10)*Direction,Point2+(i/10)*Direction,color=color)
-    return Point1+Direction*Width,Point2+Direction*Width    
+def drawSurface(grf, vec1, vec2, density, veccolor="purple", surfacecolor="orange"):
+    for i in range(density+1):
+        drawLine(grf, VO, vec1 + i/density * vec2, color=surfacecolor)
+        drawLine(grf, VO, vec2 + i/density * vec1, color=surfacecolor)
+        
+
+    drawVec(grf,VO, vec1, col=veccolor)
+    drawVec(grf,VO, vec2, col=veccolor)
+
+def drawSpace(grf, vec1, vec2, vec3, density, veccolor="purple", spacecolor="orange"):
+    for i in range(density+1):
+        #vec1 & vec2
+        drawLine(grf, VO, vec1 + i/density * vec2, color=spacecolor)
+        drawLine(grf, VO, vec2 + i/density * vec1, color=spacecolor)
+
+        drawLine(grf, vec3, vec3 + vec1 + i/density * vec2, color=spacecolor)
+        drawLine(grf, vec3, vec3 + vec2 + i/density * vec1, color=spacecolor)
+
+        
+        #vec1 & vec3
+        drawLine(grf, VO, vec1 + i/density * vec3, color=spacecolor)
+        drawLine(grf, VO, vec3 + i/density * vec1, color=spacecolor)
+
+        drawLine(grf, vec2, vec2 + vec1 + i/density * vec3, color=spacecolor)
+        drawLine(grf, vec2, vec2 + vec3 + i/density * vec1, color=spacecolor)
+        
+        #vec2 & vec3
+        drawLine(grf, VO, vec2 + i/density * vec3, color=spacecolor)
+        drawLine(grf, VO, vec3 + i/density * vec2, color=spacecolor)
+
+        drawLine(grf, vec1, vec1 + vec2 + i/density * vec3, color=spacecolor)
+        drawLine(grf, vec1, vec1 + vec3 + i/density * vec2, color=spacecolor)
+
+    drawVec(grf,VO, vec1, col=veccolor)
+    drawVec(grf,VO, vec2, col=veccolor)
+    drawVec(grf,VO, vec3, col=veccolor)
+        
 
 def drawAxes(grf,tr1=-10,tr2=10):
     
@@ -70,12 +105,11 @@ def getLen(vec):
 
 def getAngle(vec1,vec2):
     x=np.dot(vec1,vec2)
-    print(x)
     y=getLen(vec1)*getLen(vec2)
-    print(y)
-    x=x/y
+    #x/y = cos(vec1,vec2)
+    
     x=np.arccos(x/y)
-    return x/math.pi
+    return x/math.pi*180
 
 def ProjMat(support):
     x = np.zeros((3,3),dtype=np.float32)
